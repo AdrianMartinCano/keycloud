@@ -1,0 +1,40 @@
+Usuarios:
+	Id_usuario
+	Nombre_usuario
+	Email:
+	Contraseña:
+	Fecha creación: fecha y hora de creación del usuario:
+Carpetas: organiza las contraseñas en carpetas o categorias para mayor usabilidad:
+	id_carpeta
+	id_usuario
+	nombre_carpeta
+	fecha_creación
+
+Contraseñas:
+	id_contraseña
+	id_carpeta
+	titulo (nombre del servicio)
+	nombre_usuario (usuario o correo asociado al servicio)
+	contraseña:
+	url (url del servicio o aplicación)
+	notas
+	fecha_creación
+
+eventos_auditoria:
+	id_evento
+	id_usuario
+	accion (crear, actualizar, eliminar..)
+	descripcion
+	fecha_evento
+
+
+
+CREATE TABLE Usuarios (
+    id_usuario UUID PRIMARY KEY,
+    nombre_usuario VARCHAR(50),
+    email VARCHAR(100) UNIQUE,
+    contrasena VARCHAR(255),
+    fecha_creacion TIMESTAMP,
+    INDEX idx_email (email),
+    INDEX idx_nombre_usuario (nombre_usuario)
+);
