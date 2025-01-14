@@ -13,6 +13,8 @@ public class AuditoriaUtils {
         DESCRIPCIONES.put(AccionAuditoria.LOGIN, "Inicio de sesión exitoso");
         DESCRIPCIONES.put(AccionAuditoria.ACTUALIZAR, "Actualización realizada");
         DESCRIPCIONES.put(AccionAuditoria.ELIMINAR, "Eliminación realizada");
+        DESCRIPCIONES.put(AccionAuditoria.LISTAR, "Listado realizado");
+        DESCRIPCIONES.put(AccionAuditoria.CONTRASENACREAR, "Contraseña creada");
     }
 
     public static String getDescripcion(AccionAuditoria accion) {

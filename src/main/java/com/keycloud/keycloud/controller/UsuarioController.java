@@ -5,6 +5,7 @@ package com.keycloud.keycloud.controller;
 import com.keycloud.keycloud.dto.LoginRequest;
 import com.keycloud.keycloud.dto.LoginResponse;
 import com.keycloud.keycloud.model.Usuario;
+import com.keycloud.keycloud.service.AuditoriaService;
 import com.keycloud.keycloud.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,6 @@ import java.util.List;
 public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
-
 
 
     @PostMapping

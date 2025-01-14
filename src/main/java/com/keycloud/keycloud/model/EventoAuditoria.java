@@ -56,4 +56,7 @@ public class EventoAuditoria {
     public void setFechaEvento(LocalDateTime fechaEvento) {
         this.fechaEvento = fechaEvento;
     }
+
+
+
 }

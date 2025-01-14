@@ -2,10 +2,10 @@ package com.keycloud.keycloud.dto;
 
 public class LoginResponse {
 
-    private LoginData login;  // Contendrá los datos del usuario si el login es exitoso
-    private ErrorResponse error;  // Contendrá el error si hay un fallo
+    private LoginData login;
+    private ErrorResponse error;
 
-    // Getters y setters
+
     public LoginData getLogin() {
         return login;
     }

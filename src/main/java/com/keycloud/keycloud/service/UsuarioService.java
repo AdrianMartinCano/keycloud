@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.Optional;
 
 
@@ -27,15 +26,14 @@ public class UsuarioService {
     @Autowired
     private EventoAuditoriaRepository eventoAuditoriaRepository;
 
+    @Autowired
+    private AuditoriaService auditoriaService;
 
 
     public Usuario crearUsuario(Usuario usuario) {
         usuario.setFechaCreacion(LocalDateTime.now());  // Para obtener fecha y hora
         Usuario usuarioGuardado = usuarioRepository.save(usuario);
-
-        registrarEvento(usuario.getId(), AccionAuditoria.CREAR, AuditoriaUtils.getDescripcion(AccionAuditoria.CREAR));
-
-
+        auditoriaService.registrarEvento(usuario.getId(), AccionAuditoria.CREAR, AuditoriaUtils.getDescripcion(AccionAuditoria.CREAR));
         return usuarioGuardado;
 
     }
@@ -48,24 +46,25 @@ public class UsuarioService {
 
         // Si no existe el usuario, retorna un error
         if (usuarioOpt.isEmpty()) {
-            ErrorResponse error = new ErrorResponse(404, "Usuario no encontrado");
+            ErrorResponse error = new ErrorResponse(404, "Usuario no encontrado: " + nombreUsuario);
             response.setError(error);
-            registrarEvento((long) -1, AccionAuditoria.LOGIN, error.getCodigo() + " " + error.getDescripcion());
+            auditoriaService. registrarEvento((long) -1, AccionAuditoria.LOGIN, error.getCodigo() + " " + error.getDescripcion());
             return response;
         }
 
         // Comparar la contraseña (sin cifrado en este caso)
         Usuario usuario = usuarioOpt.get();
         if (!usuario.getPasswd().equals(contraseña)) {
-            ErrorResponse error = new ErrorResponse(401, "Contraseña incorrecta");
+            ErrorResponse error = new ErrorResponse(401, "Contraseña incorrecta para: " + nombreUsuario);
             response.setError(error);
-            registrarEvento(usuario.getId(), AccionAuditoria.LOGIN, error.getCodigo() + " " + error.getDescripcion());
-            return response; // Salir sin configurar login
+            auditoriaService.registrarEvento(usuario.getId(), AccionAuditoria.LOGIN, error.getCodigo() + " " + error.getDescripcion());
+            return response;
         }
 
         // Si el login fue exitoso, llenar los datos del usuario
         response.setLogin(new LoginData(usuario.getId(), usuario.getNombreUsuario()));
-        registrarEvento(usuario.getId(), AccionAuditoria.LOGIN, AuditoriaUtils.getDescripcion(AccionAuditoria.LOGIN));
+
+        auditoriaService.registrarEvento(usuario.getId(), AccionAuditoria.LOGIN, AuditoriaUtils.getDescripcion(AccionAuditoria.LOGIN));
         return response;
     }
 
@@ -74,14 +73,7 @@ public class UsuarioService {
 
 
 
-    private void registrarEvento(Long idUsuario, AccionAuditoria accion, String descripcion) {
-        EventoAuditoria evento = new EventoAuditoria();
-        evento.setIdUsuario(idUsuario);
-        evento.setAccion(accion.name());
-        evento.setDescripcion(descripcion != null ? descripcion : accion.getDescripcion());
-        evento.setFechaEvento(LocalDateTime.now());
-        eventoAuditoriaRepository.save(evento);
-    }
+
 
 
 }

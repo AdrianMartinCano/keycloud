@@ -31,8 +31,8 @@ public class Contrasenas {
     @Column(name="notas")
     private String notas;
 
-    @Column(name="fecha_creacion")
-    private LocalDateTime fecha_creacion;
+    @Column(name="fecha_caducidad")
+    private LocalDateTime fecha_caducidad;
 
 
     public Contrasenas() {
@@ -46,7 +46,7 @@ public class Contrasenas {
         this.contrasena = contrasena;
         this.url = url;
         this.notas = notas;
-        this.fecha_creacion = LocalDateTime.now();
+        this.fecha_caducidad = LocalDateTime.now();
     }
 
     public long getId() {
@@ -105,11 +105,11 @@ public class Contrasenas {
         this.notas = notas;
     }
 
-    public LocalDateTime getFecha_creacion() {
-        return fecha_creacion;
+    public LocalDateTime getFecha_caducidad() {
+        return fecha_caducidad;
     }
 
-    public void setFecha_creacion(LocalDateTime fecha_creacion) {
-        this.fecha_creacion = fecha_creacion;
+    public void setFecha_caducidad(LocalDateTime fecha_creacion) {
+        this.fecha_caducidad = fecha_creacion;
     }
 }
