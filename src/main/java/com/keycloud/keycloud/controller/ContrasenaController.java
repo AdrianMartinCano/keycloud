@@ -18,7 +18,6 @@ import java.util.Map;
 @RequestMapping("/api/contrasenas")
 @CrossOrigin(origins = "http://localhost:4200")
 public class ContrasenaController {
-
     @Autowired
     private ContrasenasService contrasenasService;
     @Autowired

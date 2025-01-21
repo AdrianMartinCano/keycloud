@@ -38,6 +38,10 @@ public class UsuarioService {
 
     }
 
+    public Usuario getUsuario(Long id){
+        Optional<Usuario> usuario = usuarioRepository.findById(id);
+        return usuario.orElse(null);
+    }
     public LoginResponse login(String nombreUsuario, String contraseña) {
         LoginResponse response = new LoginResponse();
 
