@@ -35,4 +35,9 @@ public class UsuarioController {
         return usuarioService.getUsuario(id);
     }
 
+    @PutMapping("/modificar")
+    public Usuario modificarUsuario(@RequestBody Usuario usuario) {
+        return usuarioService.modificarUsuario(usuario);
+    }
+
 }

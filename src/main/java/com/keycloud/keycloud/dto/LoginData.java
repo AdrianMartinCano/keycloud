@@ -1,30 +1,27 @@
 package com.keycloud.keycloud.dto;
 
+import com.keycloud.keycloud.model.Usuario;
+
 public class LoginData {
 
-    private Long idUsuario;
-    private String nombreUsuario;
+    private Usuario usuario;
 
-    // Constructor
-    public LoginData(Long idUsuario, String nombreUsuario) {
-        this.idUsuario = idUsuario;
-        this.nombreUsuario = nombreUsuario;
+
+    public LoginData(Usuario usuario) {
+        this.usuario = usuario;
     }
 
-    // Getters y setters
-    public Long getIdUsuario() {
-        return idUsuario;
+
+
+
+
+    public Usuario getUsuario() {
+        return usuario;
     }
 
-    public void setIdUsuario(Long idUsuario) {
-        this.idUsuario = idUsuario;
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
-    public String getNombreUsuario() {
-        return nombreUsuario;
-    }
 
-    public void setNombreUsuario(String nombreUsuario) {
-        this.nombreUsuario = nombreUsuario;
-    }
 }

@@ -30,6 +30,15 @@ public class UsuarioService {
     private AuditoriaService auditoriaService;
 
 
+    public Usuario modificarUsuario(Usuario usuario){
+
+        Optional<Usuario> usuarioBuscado = usuarioRepository.findById(usuario.getId());
+        usuario.setFechaCreacion(usuarioBuscado.get().getFechaCreacion());
+        Usuario usuarioModificado = usuarioRepository.save(usuario);
+        auditoriaService.registrarEvento(usuario.getId(), AccionAuditoria.ACTUALIZAR, AuditoriaUtils.getDescripcion(AccionAuditoria.ACTUALIZAR));
+        return usuarioModificado;
+    }
+
     public Usuario crearUsuario(Usuario usuario) {
         usuario.setFechaCreacion(LocalDateTime.now());  // Para obtener fecha y hora
         Usuario usuarioGuardado = usuarioRepository.save(usuario);
@@ -66,7 +75,9 @@ public class UsuarioService {
         }
 
         // Si el login fue exitoso, llenar los datos del usuario
-        response.setLogin(new LoginData(usuario.getId(), usuario.getNombreUsuario()));
+        //response.setLogin(new LoginData(usuario.getId(), usuario.getNombreUsuario(), usuario.getPasswd()));
+
+        response.setLogin(new LoginData(usuarioOpt.get()));
 
         auditoriaService.registrarEvento(usuario.getId(), AccionAuditoria.LOGIN, AuditoriaUtils.getDescripcion(AccionAuditoria.LOGIN));
         return response;

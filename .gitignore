@@ -31,3 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Credenciales correo ###
+/C:/Users/Pimon/Desktop/keycloud/email-config.properties
+email-config.properties
