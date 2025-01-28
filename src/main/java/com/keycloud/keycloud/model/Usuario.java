@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Date;
+import java.util.List;
 
 import static java.time.LocalTime.now;
 
@@ -25,6 +26,18 @@ public class Usuario {
     @Column(name = "fecha_Creacion")
     private LocalDateTime fechaCreacion;
 
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ResetToken> resetTokens;
+
+    public Usuario(long id, String nombreUsuario, String email, String passwd, LocalDateTime fechaCreacion) {
+        this.id = id;
+        this.nombreUsuario = nombreUsuario;
+        this.email = email;
+        this.passwd = passwd;
+        this.fechaCreacion = fechaCreacion;
+
+    }
+
     public Usuario(String nombreUsuario, String email, String passwd, LocalDateTime fechaCreacion) {
         this.nombreUsuario = nombreUsuario;
         this.email = email;
@@ -36,6 +49,13 @@ public class Usuario {
 
     }
 
+    public List<ResetToken> getResetTokens() {
+        return resetTokens;
+    }
+
+    public void setResetTokens(List<ResetToken> resetTokens) {
+        this.resetTokens = resetTokens;
+    }
 
     public String getPasswd() {
         return passwd;

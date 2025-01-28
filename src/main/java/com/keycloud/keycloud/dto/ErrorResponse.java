@@ -2,21 +2,24 @@ package com.keycloud.keycloud.dto;
 
 public class ErrorResponse {
 
-    private int codigo;
+    private String codigo;
     private String descripcion;
 
     // Constructor
-    public ErrorResponse(int codigo, String descripcion) {
+    public ErrorResponse(String codigo, String descripcion) {
         this.codigo = codigo;
         this.descripcion = descripcion;
     }
 
+    public ErrorResponse() {
+    }
+
     // Getters y setters
-    public int getCodigo() {
+    public String getCodigo() {
         return codigo;
     }
 
-    public void setCodigo(int codigo) {
+    public void setCodigo(String codigo) {
         this.codigo = codigo;
     }
 

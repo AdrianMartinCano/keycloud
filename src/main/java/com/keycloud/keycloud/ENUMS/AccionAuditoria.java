@@ -10,7 +10,8 @@ public enum AccionAuditoria {
     ELIMINAR("Eliminar"),
     LISTAR("Listadas contraseñas"),
     CONTRASENACREAR("Contraseña creada"),
-    BORRARCONTRASENA("Contraseña borrada");
+    BORRARCONTRASENA("Contraseña borrada"),
+    CREARCODIGORESTAURARPASSWORD("Se ha creado un token para cambiar la contrasena");
 
     private final String descripcion;
 

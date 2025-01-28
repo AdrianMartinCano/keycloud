@@ -15,6 +15,8 @@ public class AuditoriaUtils {
         DESCRIPCIONES.put(AccionAuditoria.ELIMINAR, "Eliminación realizada");
         DESCRIPCIONES.put(AccionAuditoria.LISTAR, "Listado realizado");
         DESCRIPCIONES.put(AccionAuditoria.CONTRASENACREAR, "Contraseña creada");
+        DESCRIPCIONES.put(AccionAuditoria.CREARCODIGORESTAURARPASSWORD, "Se ha creado un token para cambiar la contrasena");
+        DESCRIPCIONES.put(AccionAuditoria.BORRARCONTRASENA, "Se ha eliminado una contraseña del usuario");
     }
 
     public static String getDescripcion(AccionAuditoria accion) {

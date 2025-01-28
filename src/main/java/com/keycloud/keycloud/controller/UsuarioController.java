@@ -4,10 +4,14 @@ package com.keycloud.keycloud.controller;
 
 import com.keycloud.keycloud.dto.LoginRequest;
 import com.keycloud.keycloud.dto.LoginResponse;
+import com.keycloud.keycloud.dto.RegisterResponse;
+import com.keycloud.keycloud.dto.UsuarioDTO;
 import com.keycloud.keycloud.model.Usuario;
 import com.keycloud.keycloud.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 
 @RestController
@@ -20,7 +24,7 @@ public class UsuarioController {
 
 
     @PostMapping("/registrar")
-    public Usuario crearUsuario(@RequestBody Usuario usuario) {
+    public RegisterResponse crearUsuario(@RequestBody Usuario usuario) {
         return usuarioService.crearUsuario(usuario);
     }
 
@@ -31,7 +35,7 @@ public class UsuarioController {
     }
 
     @GetMapping("/{id}")
-    public Usuario getUsuario(@PathVariable long id) {
+    public UsuarioDTO getUsuario(@PathVariable long id) {
         return usuarioService.getUsuario(id);
     }
 
@@ -39,5 +43,11 @@ public class UsuarioController {
     public Usuario modificarUsuario(@RequestBody Usuario usuario) {
         return usuarioService.modificarUsuario(usuario);
     }
+
+    @GetMapping("/email/{email}")
+    public UsuarioDTO getUsuarioByEmail(@PathVariable String email) {
+        return usuarioService.usuarioPorEmail(email);
+    }
+
 
 }
