@@ -26,7 +26,7 @@ email.to=DIRECCIÓN_DE_CORREO
 Este archivo contiene la configuración del servidor SMTP para el envío de correos. También define la dirección de correo a la que se enviarán los mensajes del formulario de contacto.
 Es necesario activar SMTP. En este caso, se ha utilizado el servicio de Gmail.
 Además, necesitarás generar una contraseña de aplicación para permitir el envío de correos desde la API. [Aquí](https://support.google.com/accounts/answer/185833?hl=es) te explican como obtener una.
-** Es importante que esté en la ruta mencionada, ya que si no la clase EmailConfig dará error y nunca compilará el proyecto **
+**Es importante que esté en la ruta mencionada, ya que si no la clase EmailConfig dará error y nunca compilará el proyecto**
 
 ### 2. Modificar el `application.properties`
 
