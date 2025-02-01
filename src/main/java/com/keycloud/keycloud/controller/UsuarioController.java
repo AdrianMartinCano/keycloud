@@ -49,5 +49,9 @@ public class UsuarioController {
         return usuarioService.usuarioPorEmail(email);
     }
 
+    @PutMapping("/nuevaPassword")
+    public UsuarioDTO actualizarUsuario(@RequestBody UsuarioDTO usuario) {
+        return usuarioService.actualizarContrasena(usuario);
+    }
 
 }

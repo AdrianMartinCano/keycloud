@@ -34,4 +34,4 @@ build/
 
 ### Credenciales correo ###
 /C:/Users/Pimon/Desktop/keycloud/email-config.properties
-email-config.properties
+src/main/resources/email-config.properties

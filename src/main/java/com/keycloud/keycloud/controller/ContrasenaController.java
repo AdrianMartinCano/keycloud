@@ -2,17 +2,14 @@ package com.keycloud.keycloud.controller;
 
 import com.keycloud.keycloud.CONSTANTS.AuditoriaUtils;
 import com.keycloud.keycloud.ENUMS.AccionAuditoria;
+import com.keycloud.keycloud.dto.UsuarioDTO;
 import com.keycloud.keycloud.model.Contrasenas;
-import com.keycloud.keycloud.model.EventoAuditoria;
-import com.keycloud.keycloud.repository.EventoAuditoriaRepository;
 import com.keycloud.keycloud.service.AuditoriaService;
 import com.keycloud.keycloud.service.ContrasenasService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
+
 
 @RestController
 @RequestMapping("/api/contrasenas")
@@ -50,4 +47,6 @@ public class ContrasenaController {
         auditoriaService.registrarEvento(id, AccionAuditoria.ELIMINAR, AuditoriaUtils.getDescripcion(AccionAuditoria.BORRARCONTRASENA));
         return contrasenasService.eliminarContrasenapPorId(id);
     }
+
+
 }

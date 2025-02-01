@@ -27,6 +27,12 @@ public class UsuarioService {
     private AuditoriaService auditoriaService;
     @Autowired
     private ResetTokenService resetTokenService;
+    @Autowired
+    private EmailService emailService;
+
+    private final String subject="Código de restauración de contraseña";
+
+
 
 
     public UsuarioDTO usuarioPorEmail(String email) {
@@ -51,7 +57,6 @@ public class UsuarioService {
                     AuditoriaUtils.getDescripcion(AccionAuditoria.CREARCODIGORESTAURARPASSWORD));
 
             // Mapear el usuario a UsuarioDTO
-
             usuarioDTO.setId(usuario.getId());
             usuarioDTO.setEmail(usuario.getEmail());
             usuarioDTO.setNombreUsuario(usuario.getNombreUsuario());
@@ -64,17 +69,21 @@ public class UsuarioService {
             tokenDTO.setFechaCreacion(token.getFechaCreacion());
             tokenDTO.setFechaExpiracion(token.getFechaExpiracion());
 
-
             usuarioDTO.setResetTokens(tokenDTO);
 
+            //Mandamos por correo el código generado
+            String cuerpoMensaje = "<p>Hola " + usuarioDTO.getNombreUsuario() + ",</p>" +
+                    "<p>Usted o alguien ha solicitado cambiar su contraseña. Si fue usted, por favor ingrese el siguiente código " +
+                    "en el paso correspondiente. Si no fue usted, significa que alguien ha intentado acceder a su cuenta. " +
+                    "Este código es válido solo durante los próximos 30 minutos.</p>" +
+                    "<p>Código:<strong> " + tokenDTO.getToken() + "</strong></p>" +
+                    "<p>Si no solicitó este cambio, ignore este mensaje.</p>";
+            emailService.sendHtmlEmail(usuarioDTO.getEmail(), subject, cuerpoMensaje);
 
-            // Retornar el DTO del usuario con el último token
-            //usuarioDTO.setErrorResponse(new ErrorResponse());
             return usuarioDTO;
         }
             usuarioDTO = new UsuarioDTO();
             usuarioDTO.setErrorResponse(new ErrorResponse("404", "Usuario no encontrado"));
-            // Si no se encuentra el usuario, puedes lanzar una excepción o devolver un mensaje adecuado
             return usuarioDTO;
 
     }
@@ -106,6 +115,34 @@ public class UsuarioService {
             user.setResetTokens(new ArrayList<>());
             registerResponse.setUsuario(user);
             registerResponse.setError(new ErrorResponse());
+
+
+            // Asunto del correo
+            String subjectNuevoUsuario = "¡Bienvenido a bordo, " + user.getNombreUsuario() + "! 🎉";
+
+            // Cuerpo del mensaje en HTML
+            String bodyNuevoUsuario = "<html>"
+                    + "<body>"
+                    + "<h2>¡Hola, " + user.getNombreUsuario() + "!</h2>"
+                    + "<p>¡Gracias por unirte a nuestra comunidad! 🎉</p>"
+                    + "<p>Estamos muy contentos de tenerte con nosotros. A partir de ahora, podrás disfrutar de todas las funcionalidades que tenemos para ofrecerte.</p>"
+                    + "<p>¿Qué puedes hacer ahora?</p>"
+                    + "<ul>"
+                    + "<li>Comienza a explorar tu perfil.</li>"
+                    + "<li>Descubre nuevas características y recursos.</li>"
+                    + "<li>¡Y no dudes en contactarnos si tienes alguna duda!</li>"
+                    + "</ul>"
+                    + "<p>¡Nos alegra que estés con nosotros y esperamos que disfrutes de la experiencia!</p>"
+                    + "<br>"
+                    + "<p>Saludos, <br>El equipo de Keycloud</p>"
+                    + "</body>"
+                    + "</html>";
+
+            // Enviar el correo electrónico usando el servicio
+            emailService.sendHtmlEmail(user.getEmail(), subjectNuevoUsuario, bodyNuevoUsuario);
+
+
+
             return registerResponse;
         }catch (Exception e){
 
@@ -182,11 +219,33 @@ public class UsuarioService {
     }
 
 
+    public UsuarioDTO actualizarContrasena(UsuarioDTO usuario) {
+        UsuarioDTO usuarioDTO = new UsuarioDTO();
+        ResetTokenDTO token = new ResetTokenDTO();
+        ErrorResponse error = new ErrorResponse();
+        if (LocalDateTime.now().isAfter(usuario.getResetTokens().getFechaExpiracion())){
+            error.setCodigo("406");
+            error.setDescripcion("El código ha caducado");
+            usuarioDTO.setErrorResponse(error);
+            return usuarioDTO;
+        }
+        Usuario usuarioBuscado = usuarioRepository.findById(usuario.getId()).get();
+        usuarioBuscado.setPasswd(usuario.getPasswd());
+        Usuario usuarioguardado = usuarioRepository.save(usuarioBuscado);
+
+        usuarioDTO.setId(usuarioguardado.getId());
+        usuarioDTO.setNombreUsuario(usuarioguardado.getNombreUsuario());
+        usuarioDTO.setEmail(usuarioguardado.getEmail());
+        usuarioDTO.setPasswd(usuarioguardado.getPasswd());
+
+
+        token.setToken(usuario.getResetTokens().getToken());
+
+        usuarioDTO.setResetTokens(token);
+        usuarioDTO.setPasswd(usuarioguardado.getPasswd());
 
 
 
-
-
-
-
+        return usuarioDTO;
+    }
 }
