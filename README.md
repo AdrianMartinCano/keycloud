@@ -1,7 +1,6 @@
 # Keycloud Backend
 
 !Bienvenido al repositorio del backend de **Keycloud**, un gestor de contraseñas!
-
 Este proyecto está construido con Java, JPA, Spring, Maven y Docker.
 
 ## Pasos para que funcione
@@ -39,6 +38,7 @@ Por tu ruta y tu base de datos.
 
 
 ### 3. Modificar el `application-docker.properties`
+
 En la carpeta `/src/main/resources/` hay este otro archivo, este archivo se usa cuando la aplicación se ejecuta en Docker.
 Este archivo se cargará automáticamente cuando ejecutes la aplicación en un contenedor Docker, asegurando que se use la configuración correcta para la base de datos dentro del contenedor.
 En este caso, la linea: 
@@ -50,10 +50,12 @@ Es recomendable no modificar esta configuración, ya que el contenedor de MySQL 
 
 
 ### 4. Docker-compose.yml
+
 En este archivo, puedes cambiar la versión de la imagen de SQL, que es lo que he usado en mi caso.
 Este archivo define la configuración de los servicios que se ejecutarán en Docker. Aquí puedes modificar el nombre del contenedor de MySQL, la versión de la imagen y los volúmenes donde se almacenarán los datos de la base de datos.
 
 ### 5. Obtener el .JAR para dockerizar la API y la BBDD
+
 Ejecuta el comando
 ```
 mvn clean package
@@ -61,6 +63,7 @@ mvn clean package
 Una vez terminado, debería haber una carpeta `/target/` en el directorio raíz. Esta carpeta contendrá el archivo `.jar` que se usará en el microservicio.
 
 ### 6. Construir la imagen
+
 Asegúrate de que el archivo Dockerfile está en la raíz del proyecto. Si necesitas personalizar la imagen, puedes modificar el Dockerfile en la raíz del proyecto.
 Luego, ejecuta el siguiente comando en la terminal:
 ```
@@ -73,25 +76,26 @@ docker images
 ```
 
 ### 7. Levantar contenedores
+
 Ejecuta el comando
 ```
 docker-compose up -d
 ```
+En estos momentos, la aplicación ya estaría desplegada.
 Una vez levantados los contenedores, la API estará disponible en:
 ```
 http://localhost:8080/
 ```
 ### 8. Detener contenedores
+
 Para detener y eliminar los contenedores, usa:
 ```
 docker-compose down
 ```
 
-En estos momentos, la aplicación ya estaría desplegada.
+### 9. Anexo
 
-### 8. Anexo
 Puedes acceder a un bash de docker y comprobar si la base de datos se ha creado bien:
-
 ```
 docker exec -it mysql_container bash
 mysql -u root -p
